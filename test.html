@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>download check</title></head>
+<body>
+<pre id="out">checking...</pre>
+<script>
+(async function () {
+  var urls = [
+    '/FXStore-v2.2.0.apk',
+    '/OnlyBrowser-1.7.3.apk',
+    '/SBox-v1.2.0.apk'
+  ];
+  var out = document.getElementById('out');
+  var txt = '';
+  for (var i = 0; i < urls.length; i++) {
+    try {
+      var r = await fetch(urls[i], { method: 'HEAD', redirect: 'manual' });
+      txt += urls[i] + ' -> HTTP ' + r.status +
+        ' len=' + r.headers.get('content-length') +
+        ' type=' + r.headers.get('content-type') + '\n';
+    } catch (e) {
+      txt += urls[i] + ' -> ERROR ' + e + '\n';
+    }
+  }
+  out.textContent = txt;
+})();
+</script>
+</body>
+</html>
